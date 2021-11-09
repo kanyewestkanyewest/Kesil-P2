@@ -1,15 +1,15 @@
 // requestAnim shim layer by Paul Irish
     window.requestAnimFrame = (function(){
-      return  window.requestAnimationFrame       || 
-              window.webkitRequestAnimationFrame || 
-              window.mozRequestAnimationFrame    || 
-              window.oRequestAnimationFrame      || 
-              window.msRequestAnimationFrame     || 
+      return  window.requestAnimationFrame       ||
+              window.webkitRequestAnimationFrame ||
+              window.mozRequestAnimationFrame    ||
+              window.oRequestAnimationFrame      ||
+              window.msRequestAnimationFrame     ||
               function(/* function */ callback, /* DOMElement */ element){
                 window.setTimeout(callback, 1000 / 60);
               };
     })();
-  
+
 
 // example code from mr doob : http://mrdoob.com/lab/javascript/requestanimationframe/
 
@@ -35,7 +35,7 @@ function animate() {
 function swapPhoto() {
 	//Add code here to access the #slideShow element.
 	//Access the img element and replace its source
-	//with a new image from your images array which is loaded 
+	//with a new image from your images array which is loaded
 	//from the JSON string
 	console.log('swap photo');
 }
@@ -46,6 +46,30 @@ var mCurrentIndex = 0;
 // XMLHttpRequest variable
 var mRequest = new XMLHttpRequest();
 
+const getTodos = () => {
+const request = new XMLHttpRequest();
+
+request.addEventListener('readystatechange', () => {
+//console.log(request, request.readyStatee);
+if(request.readyState === 4 && request.status ===200){
+const data = JSON.parse(request.responseText);
+callback(undefined,);
+} else if (request.readyState === 4){
+console.log('could not fetch data');
+console.log(request.responseText);
+}
+});
+request.open('GET', 'https://jsonplaceholder.typicode.com/todos/');
+request.send();
+};
+
+getTodos((err, data) => {
+console.log('callback fired');
+if(err){}
+});
+
+nRequest.open("get","../images.json");
+mRequest.send();
 // Array holding GalleryImage objects (see below).
 var mImages = [];
 
@@ -67,22 +91,26 @@ function makeGalleryImageOnloadCallback(galleryImage) {
 }
 
 $(document).ready( function() {
-	
+
 	// This initially hides the photos' metadata information
 	$('.details').eq(0).hide();
-	
+
 });
 
 window.addEventListener('load', function() {
-	
+
 	console.log('window loaded');
 
 }, false);
 
 function GalleryImage() {
 	//implement me as an object to hold the following data about an image:
+  this.location;
 	//1. location where photo was taken
+  this.dsecription;
 	//2. description of photo
+  this.date;
 	//3. the date when the photo was taken
+  this.img;
 	//4. either a String (src URL) or an an HTMLImageObject (bitmap of the photo. https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement)
 }
