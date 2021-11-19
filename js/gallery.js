@@ -34,8 +34,24 @@ function animate() {
 
 function swapPhoto() {
 	//Add code here to access the #slideShow element.
+if(mCurrentIndex >= mImages.length)
+{
+  mCurrentIndex = 0;
+}
 	//Access the img element and replace its source
+if (mCurrentIndex < 0) {
+  mCurrentINdex = mImages.length-1;
+
+}
 	//with a new image from your images array which is loaded
+document.getElementByID('photo').src = mImages[mCurrentIndex].img;
+document.getelementsByClassName('location')[0].innerHTML = "location:" + mImages[mCurrentIndex].location;
+document.getelementsByClassName('description')[0].innerHTML = "Description:" + mImages[mCurrentIndex].description;
+document.getelementsByClassName('date')[0].innerHTML = "Date:" + mImages[mCurrentIndex].date;
+
+mLastFrameTime = 0;
+mCurrentIndex += 1;
+}
 	//from the JSON string
 	console.log('swap photo');
 }
@@ -47,32 +63,20 @@ this.date;
 this.location;
 
 // XMLHttpRequest variable
-var mRequest = new XMLHttpRequest();
-
-const getTodos = () => {
-const request = new XMLHttpRequest();
-
-request.addEventListener('readystatechange', () => {
-//console.log(request, request.readyStatee);
-if(request.readyState === 4 && request.status ===200){
-const data = JSON.parse(request.responseText);
-callback(undefined,);
-} else if (request.readyState === 4){
-console.log('could not fetch data');
-console.log(request.responseText);
+var mRequest new XMLHtttpRequest();
+function fetchJSON()
+{
+  mRequest.onreadystatechange = function() {
+    console.log("on ready state change");
+    if(this.readyState == 4 && this.status == 200) {
+      mJson = JSON.parse(mRequest.responseText);
+      iterateJSON(mJson);
+    }
+  }
+  mEquest.open("GET", mUrl, true);
+  mRequest.send();
 }
-});
-request.open('GET', 'https://jsonplaceholder.typicode.com/todos/');
-request.send();
-};
 
-getTodos((err, data) => {
-console.log('callback fired');
-if(err){}
-});
-
-nRequest.open("get","../images.json");
-mRequest.send();
 // Array holding GalleryImage objects (see below).
 var mImages = [];
 
